@@ -4,20 +4,26 @@ import { NavLink } from "react-router-dom";
 const SideMenus = () => {
   return (
     <div>
-      <div className="links hidden fixed md:flex flex-col gap-2 items-start top-10 mix-blend-difference text-white right-10">
-        <NavLink className={`text-2xl font-thin`} to={"/"}>
+      <div className="links hidden fixed md:flex flex-col gap-2 items-start top-10 mix-blend-difference text-white right-6">
+        <NavLink className={`text-2xl font-thin tracking-tight`} to={"/"}>
           Home
         </NavLink>
-        <NavLink className={`text-2xl font-thin`} to={"/about"}>
+        <NavLink className={`text-2xl font-thin tracking-tight`} to={"/about"}>
           About Us
         </NavLink>
-        <NavLink className={`text-2xl font-thin`} to={"/products"}>
+        <NavLink
+          className={`text-2xl font-thin tracking-tight`}
+          to={"/products"}
+        >
           Products
         </NavLink>
-        <NavLink className={`text-2xl font-thin`} to={"/policy"}>
+        <NavLink className={`text-2xl font-thin tracking-tight`} to={"/policy"}>
           Our Policies
         </NavLink>
-        <NavLink className={`text-2xl font-thin`} to={"/contact"}>
+        <NavLink
+          className={`text-2xl font-thin tracking-tight`}
+          to={"/contact"}
+        >
           Contact
         </NavLink>
       </div>
