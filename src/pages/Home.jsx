@@ -4,6 +4,29 @@ import React, { useEffect, useRef } from "react";
 import Button from "../components/Button";
 
 const Home = () => {
+  const trendRef = useRef(null);
+  const handleMouseEnter = () => {
+    gsap.to(trendRef.current, {
+      scaleX: 1.05,
+      backgroundColor: "#D8FF07",
+      boxShadow: "none",
+      borderColor: "#D8FF07",
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
+  const handleMouseLeave = () => {
+    gsap.to(trendRef.current, {
+      scaleX: 1,
+      backgroundColor: "#D8FF07", // stay the same
+      boxShadow: "none",
+      borderColor: "#000",
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
   const useScrollAnimation = () => {
     useEffect(() => {
       let touchStartY = 0;
@@ -120,8 +143,122 @@ const Home = () => {
     });
   });
 
+  const animateImg = (e) => {
+    const container = e.currentTarget;
+    const img = container.querySelector(".hid-img");
+
+    img.style.display = "block";
+    gsap.fromTo(
+      img,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: "power2.out" }
+    );
+
+    container.addEventListener("mousemove", moveImage);
+  };
+
+  const moveImage = (e) => {
+    const container = e.currentTarget;
+    const img = container.querySelector(".hid-img");
+    const rect = container.getBoundingClientRect();
+
+    const x = e.clientX - rect.left - img.offsetWidth / 2;
+    const y = e.clientY - rect.top - img.offsetHeight / 2;
+
+    gsap.to(img, {
+      x: x,
+      y: y,
+      opacity: 1,
+      duration: 0.9,
+      ease: "power4.out",
+    });
+  };
+
+  const removeAnimateImg = (e) => {
+    const container = e.currentTarget;
+    const img = container.querySelector(".hid-img");
+
+    gsap.to(img, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.inOut",
+      onComplete: () => {
+        img.style.display = "none";
+      },
+    });
+  };
+
+  const animateImgTrend = (e) => {
+    const container = e.currentTarget;
+    const img = container.querySelector("img");
+
+    img.style.display = "block";
+    img.style.pointerEvents = "none"; // so it doesn’t block mouse events
+
+    gsap.fromTo(
+      img,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: "power2.out" }
+    );
+  };
+
+  const moveImageTrend = (e) => {
+    const container = e.currentTarget;
+    const img = container.querySelector("img");
+
+    const rect = container.getBoundingClientRect();
+    const imgWidth = img.offsetWidth;
+    const imgHeight = img.offsetHeight;
+
+    let x = e.clientX - rect.left - imgWidth / 2;
+    let y = e.clientY - rect.top - imgHeight / 2;
+
+    // Clamp to container bounds
+    x = Math.max(0, Math.min(x, rect.width - imgWidth));
+    y = Math.max(0, Math.min(y, rect.height - imgHeight));
+
+    gsap.to(img, {
+      x,
+      y,
+      opacity: 1,
+      duration: 0.8,
+      ease: "power4.out",
+    });
+  };
+
+  const removeImgTrend = (e) => {
+    const img = e.currentTarget.querySelector("img");
+
+    gsap.to(img, {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power2.inOut",
+      onComplete: () => {
+        img.style.display = "none";
+      },
+    });
+  };
+
+  const zoomImage = (e) => {
+    const img = e.currentTarget;
+    gsap.to(img, {
+      scale: 1.1,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
+  const removeZoomImage = (e) => {
+    const img = e.currentTarget;
+    gsap.to(img, {
+      scale: 1,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+  };
+
   return (
-    <div className="h-full w-screen realative">
+    <div className="min-h-screen  w-screen realative">
       <section className=" h-full w-full">
         <img
           className="h-full w-full object-cover"
@@ -130,10 +267,12 @@ const Home = () => {
         />
 
         <div className="text hero1 absolute top-[2%] md:top-[5%] left-0 px-5 md:px-15 text-white mix-blend-difference  flex flex-col items-start justify-center gap-3 ">
-          <h1 className="text-[15vw] leading-none font-bold ">We</h1>
-          <h1 className="text-[15vw] leading-none font-bold ">Create</h1>
-          <h1 className="text-[15vw] leading-none font-bold ">Timeless</h1>
-          <h1 className="text-[15vw] leading-none font-bold ">Essentials</h1>
+          <h1 className="text-[15vw] leading-none font-semibold ">We</h1>
+          <h1 className="text-[15vw] leading-none font-semibold ">Create</h1>
+          <h1 className="text-[15vw] leading-none font-semibold ">Timeless</h1>
+          <h1 className="text-[15vw] leading-none font-semibold ">
+            Essentials
+          </h1>
         </div>
       </section>
 
@@ -184,6 +323,8 @@ const Home = () => {
                 <div className="w-full md:w-[40%] flex flex-col rounded-4xl ">
                   <div className="aspect-[4/5] rounded-4xl overflow-hidden w-full">
                     <img
+                      onMouseEnter={zoomImage}
+                      onMouseLeave={removeZoomImage}
                       className="h-full w-full object-cover"
                       src="/images/card1.webp"
                       alt=""
@@ -198,9 +339,11 @@ const Home = () => {
                 </div>
 
                 <div className="w-full md:w-[40%] flex flex-col rounded-2xl overflow-hidden">
-                  <div className="aspect-[4/5] rounded-4xl overflow-hidden w-full">
+                  <div className="aspect-[4/5]  rounded-4xl overflow-hidden w-full">
                     <img
-                      className="h-full w-full rounded-4xl object-cover"
+                      onMouseEnter={zoomImage}
+                      onMouseLeave={removeZoomImage}
+                      className="h-full w-full rounded-4xl  object-cover"
                       src="/images/card2.webp"
                       alt=""
                     />
@@ -218,6 +361,8 @@ const Home = () => {
                 <div className="w-full md:w-[40%] flex flex-col rounded-2xl overflow-hidden">
                   <div className="aspect-[4/5] rounded-4xl overflow-hidden w-full">
                     <img
+                      onMouseEnter={zoomImage}
+                      onMouseLeave={removeZoomImage}
                       className="h-full w-full rounded-4xl object-cover"
                       src="/images/card3.webp"
                       alt=""
@@ -234,6 +379,8 @@ const Home = () => {
                 <div className="w-full md:w-[40%] flex flex-col rounded-2xl overflow-hidden">
                   <div className="aspect-[4/5] rounded-4xl overflow-hidden w-full">
                     <img
+                      onMouseEnter={zoomImage}
+                      onMouseLeave={removeZoomImage}
                       className="h-full w-full rounded-4xl object-cover"
                       src="/images/card4.webp"
                       alt=""
@@ -291,29 +438,74 @@ const Home = () => {
             </div>
 
             <div className="lines w-full   py-10 px-2  flex flex-col gap-1 items-end text-black ">
-              <div className="line w-[95%] md:w-[89%] uppercase py-5 md:py-9 pl-2 flex items-center justify-start  border-t-1 border-gray-400">
+              <div
+                onMouseMove={moveImageTrend}
+                onMouseEnter={animateImgTrend}
+                onMouseLeave={removeImgTrend}
+                className="line relative w-[95%] md:w-[89%] uppercase py-5 md:py-9 pl-2 flex items-center justify-start  border-t-1 border-gray-400"
+              >
                 <h1 className="text-[6vw] md:text-[4vw] font-thin">
                   Linen pants
                 </h1>
+                <img
+                  className="absolute w-[15%] object-cover aspect-square hidden z-50 rounded-xl pointer-events-none"
+                  src="/images/linenpants.webp"
+                  alt=""
+                />
               </div>
-              <div className="line w-[95%] md:w-[89%] uppercase py-5 md:py-9 pl-2 flex items-center justify-start  border-t-1 border-gray-400">
+              <div
+                onMouseMove={moveImageTrend}
+                onMouseEnter={animateImgTrend}
+                onMouseLeave={removeImgTrend}
+                className="line relative w-[95%] md:w-[89%] uppercase py-5 md:py-9 pl-2 flex items-center justify-start  border-t-1 border-gray-400"
+              >
                 <h1 className="text-[6vw] md:text-[4vw] font-thin">
                   raglan t-shirt
                 </h1>
+                <img
+                  className="absolute w-[15%] object-cover aspect-square hidden z-50 rounded-xl pointer-events-none"
+                  src="/images/rangalan.jpg"
+                  alt=""
+                />
               </div>
-              <div className="line w-[95%] md:w-[89%] uppercase py-5 md:py-9 pl-2 flex items-center justify-start  border-t-1 border-gray-400">
+              <div
+                onMouseMove={moveImageTrend}
+                onMouseEnter={animateImgTrend}
+                onMouseLeave={removeImgTrend}
+                className="line relative w-[95%] md:w-[89%] uppercase py-5 md:py-9 pl-2 flex items-center justify-start  border-t-1 border-gray-400"
+              >
                 <h1 className="text-[6vw] md:text-[4vw] font-thin">
                   half sleeved raglan tee
                 </h1>
+                <img
+                  className="absolute w-[15%] object-cover aspect-square hidden z-50 rounded-xl pointer-events-none"
+                  src="/images/halfsleeved.webp"
+                  alt=""
+                />
               </div>
-              <div className="line w-[95%] md:w-[89%] uppercase py-5 md:py-9 pl-2 flex items-center justify-start  border-t-1 border-gray-400">
+              <div
+                onMouseMove={moveImageTrend}
+                onMouseEnter={animateImgTrend}
+                onMouseLeave={removeImgTrend}
+                className="line relative w-[95%] object-cover md:w-[89%] uppercase py-5 md:py-9 pl-2 flex items-center justify-start  border-t-1 border-gray-400"
+              >
                 <h1 className="text-[6vw] md:text-[4vw] font-thin">
                   block haters w/ shades
                 </h1>
+                <img
+                  className="absolute w-[15%] object-cover aspect-square hidden z-50 rounded-xl pointer-events-none"
+                  src="/images/block.webp"
+                  alt=""
+                />
               </div>
             </div>
 
-            <div className="px-5 py-3  m-auto bg-[#D8FF07] w-max text-black rounded-full flex items-center justify-center gap-3 md:text-lg">
+            <div
+              ref={trendRef}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              className="px-5 py-3  m-auto bg-[#D8FF07] w-max text-black rounded-full flex items-center justify-center gap-3 md:text-lg"
+            >
               Shop The Trend
               <div className="circle h-3 w-3 rounded-full bg-black"></div>
             </div>
@@ -327,9 +519,14 @@ const Home = () => {
             </div>
 
             <div className="w-full text-black px-10  py-4 md:py-15 flex flex-col items-center justify-center gap-7">
-              <div className="card flex flex-col md:w-[85%] gap-4 border-t border-gray-300 py-8 md:flex-row items-center">
+              <div
+                onMouseEnter={animateImg}
+                onMouseMove={moveImage}
+                onMouseLeave={removeAnimateImg}
+                className="card sky relative flex flex-col md:w-[85%] gap-4 border-t border-gray-300 py-8 md:flex-row items-center"
+              >
                 <div className="top md:w-1/2">
-                  <div className="w-[100%] aspect-[1/1] rounded-2xl overflow-hidden md:hidden">
+                  <div className="w-[100%] aspect-[1/1] rounded-2xl overflow-hidden md:absolute md:w-[20%] md:top-0  hid-img pointer-events-none z-50 md:hidden">
                     <img
                       className="h-full w-full object-cover"
                       src="/images/blokecore-brown.webp"
@@ -355,12 +552,17 @@ const Home = () => {
                   </p>
                 </div>
               </div>
-              <div className="card flex flex-col gap-4 md:w-[85%] border-t border-gray-300 py-8 md:flex-row items-center">
+              <div
+                onMouseEnter={animateImg}
+                onMouseMove={moveImage}
+                onMouseLeave={removeAnimateImg}
+                className="card relative flex flex-col md:w-[85%] gap-4 border-t border-gray-300 py-8 md:flex-row items-center"
+              >
                 <div className="top md:w-1/2">
-                  <div className="w-[100%] aspect-[1/1] rounded-2xl overflow-hidden md:hidden">
+                  <div className="w-[100%] aspect-[1/1] rounded-2xl overflow-hidden md:absolute md:w-[20%] md:top-0 z-50 hid-img pointer-events-none md:hidden">
                     <img
                       className="h-full w-full object-cover"
-                      src="/images/blokecore-brown.webp"
+                      src="/images/blokecore-red.webp"
                       alt=""
                     />
                   </div>
@@ -368,7 +570,7 @@ const Home = () => {
                     blokecore
                   </h2>
                   <h1 className="text-2xl md:text-5xl py-2 md:py-5 pt-4 md:pt-8">
-                    Blokecore Polo - Sky Blue
+                    Blokecore Polo - Racer Red
                   </h1>
                   <p className="text-gray-600 font-thin">coming soon...</p>
                 </div>
@@ -383,12 +585,17 @@ const Home = () => {
                   </p>
                 </div>
               </div>
-              <div className="card flex flex-col gap-4 md:w-[85%] border-t border-gray-300 py-8 md:flex-row items-center">
+              <div
+                onMouseEnter={animateImg}
+                onMouseMove={moveImage}
+                onMouseLeave={removeAnimateImg}
+                className="card relative flex flex-col md:w-[85%] gap-4 border-t border-gray-300 py-8 md:flex-row items-center"
+              >
                 <div className="top md:w-1/2">
-                  <div className="w-[100%] aspect-[1/1] rounded-2xl overflow-hidden md:hidden">
+                  <div className="w-[100%] aspect-[1/1] rounded-2xl overflow-hidden md:absolute md:w-[20%] md:top-0 z-50 hid-img pointer-events-none md:hidden">
                     <img
                       className="h-full w-full object-cover"
-                      src="/images/blokecore-brown.webp"
+                      src="/images/blokecore-green.webp"
                       alt=""
                     />
                   </div>
@@ -396,7 +603,7 @@ const Home = () => {
                     blokecore
                   </h2>
                   <h1 className="text-2xl md:text-5xl py-2 md:py-5 pt-4 md:pt-8">
-                    Blokecore Polo - Sky Blue
+                    Blokecore Polo - Game Green
                   </h1>
                   <p className="text-gray-600 font-thin">coming soon...</p>
                 </div>

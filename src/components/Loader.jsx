@@ -99,7 +99,7 @@ const Loader = ({ setShowLoader }) => {
             style={{ width: `${load}%` }}
           ></div>
         </div>
-        <p className="md:text-[6vw] text-[10vw] font-black flex items-baseline">
+        <p className="md:text-[6vw] text-[10vw] text-gray-700 font-black flex items-baseline">
           {load} <span className="text-[2vw] text-gray-500">%</span>
         </p>
       </div>
