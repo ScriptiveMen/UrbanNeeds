@@ -3,13 +3,16 @@ import { NavLink } from "react-router-dom";
 
 const SideMenus = () => {
   const linkClasses =
-    "text-2xl font-thin tracking-tight relative group overflow-hidden";
+    "text-xl font-thin tracking-tight relative group overflow-hidden";
 
   const spanClasses =
     "inline-block  px-1 text-left group-hover:scale-105 group-hover:-translate-y-1 transition-transform duration-300 ease-out";
 
   const underlineClasses =
     "absolute left-1 bottom-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300 ease-in-out";
+
+  const loginButtonClasses =
+    "bg-white text-black w-full text-center py-2 rounded-full hover:scale-95 mix-blend-normal";
 
   return (
     <div>
@@ -18,14 +21,22 @@ const SideMenus = () => {
           <span className={spanClasses}>Home</span>
           <span className={underlineClasses}></span>
         </NavLink>
-        <NavLink className={linkClasses} to={"/about"}>
-          <span className={spanClasses}>About Us</span>
-          <span className={underlineClasses}></span>
-        </NavLink>
+
         <NavLink className={linkClasses} to={"/products"}>
           <span className={spanClasses}>Products</span>
           <span className={underlineClasses}></span>
         </NavLink>
+
+        <NavLink className={linkClasses} to={"/cart"}>
+          <span className={spanClasses}>Cart</span>
+          <span className={underlineClasses}></span>
+        </NavLink>
+
+        <NavLink className={linkClasses} to={"/about"}>
+          <span className={spanClasses}>About Us</span>
+          <span className={underlineClasses}></span>
+        </NavLink>
+
         <NavLink className={linkClasses} to={"/policy"}>
           <span className={spanClasses}>Our Policies</span>
           <span className={underlineClasses}></span>
@@ -33,6 +44,10 @@ const SideMenus = () => {
         <NavLink className={linkClasses} to={"/contact"}>
           <span className={spanClasses}>Contact</span>
           <span className={underlineClasses}></span>
+        </NavLink>
+
+        <NavLink to={"/login"} className={loginButtonClasses}>
+          Login
         </NavLink>
       </div>
     </div>

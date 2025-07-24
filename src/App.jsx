@@ -8,6 +8,7 @@ import SideEmail from "./components/SideEmail";
 import Footer from "./components/Footer";
 import LocomotiveScroll from "locomotive-scroll";
 import CustomCursor from "./components/CustomCursor";
+import ScrollingText from "./components/ScrollingText";
 
 const App = () => {
   const [showloader, setShowLoader] = useState(true);
@@ -21,6 +22,7 @@ const App = () => {
       <SideMenus />
       <MainRoutes />
       <SideEmail />
+      <ScrollingText />
       <Footer />
       {showloader && (
         <div className="fixed inset-0 z-[9999]">

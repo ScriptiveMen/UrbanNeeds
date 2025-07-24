@@ -2,6 +2,8 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import React, { useEffect, useRef } from "react";
 import Button from "../components/Button";
+import ScrollingText from "../components/ScrollingText";
+import String from "../components/String";
 
 const Home = () => {
   const trendRef = useRef(null);
@@ -26,111 +28,6 @@ const Home = () => {
       ease: "power2.out",
     });
   };
-
-  const useScrollAnimation = () => {
-    useEffect(() => {
-      let touchStartY = 0;
-
-      const handleWheel = (e) => {
-        if (e.deltaY > 0) {
-          gsap.to(".marquee", {
-            transform: "translateX(-200%)",
-            duration: 6,
-            repeat: -1,
-            ease: "none",
-          });
-          gsap.to(".marquee img", { rotate: 180 });
-        } else {
-          gsap.to(".marquee", {
-            transform: "translateX(0%)",
-            duration: 6,
-            repeat: -1,
-            ease: "none",
-          });
-          gsap.to(".marquee img", { rotate: 0 });
-        }
-      };
-
-      const handleTouchStart = (e) => {
-        touchStartY = e.touches[0].clientY;
-      };
-
-      const handleTouchMove = (e) => {
-        const touchEndY = e.touches[0].clientY;
-        if (touchStartY - touchEndY > 10) {
-          // swipe up
-          gsap.to(".marquee", {
-            transform: "translateX(-200%)",
-            duration: 6,
-            repeat: -1,
-            ease: "none",
-          });
-          gsap.to(".marquee img", { rotate: 180 });
-        } else if (touchEndY - touchStartY > 10) {
-          // swipe down
-          gsap.to(".marquee", {
-            transform: "translateX(0%)",
-            duration: 6,
-            repeat: -1,
-            ease: "none",
-          });
-          gsap.to(".marquee img", { rotate: 0 });
-        }
-      };
-
-      window.addEventListener("wheel", handleWheel);
-      window.addEventListener("touchstart", handleTouchStart);
-      window.addEventListener("touchmove", handleTouchMove);
-
-      return () => {
-        window.removeEventListener("wheel", handleWheel);
-        window.removeEventListener("touchstart", handleTouchStart);
-        window.removeEventListener("touchmove", handleTouchMove);
-      };
-    }, []);
-  };
-  useScrollAnimation();
-
-  useEffect(() => {
-    const originalPath = `M 0 80 Q 500 80 1000 80`;
-
-    const handleMouseMove = (e) => {
-      const string = e.currentTarget;
-      const path = string.querySelector("path");
-      const rect = string.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 1000;
-      const y = ((e.clientY - rect.top) / rect.height) * 160 * 1.5;
-
-      const newPath = `M 0 80 Q ${x} ${y} 1000 80`;
-      gsap.to(path, {
-        attr: { d: newPath },
-        duration: 0.3,
-        ease: "power3.out",
-      });
-    };
-
-    const handleMouseLeave = (e) => {
-      const path = e.currentTarget.querySelector("path");
-      gsap.to(path, {
-        attr: { d: originalPath },
-        duration: 1.2,
-        ease: "elastic.out(1,0.2)",
-      });
-    };
-
-    const strings = document.querySelectorAll(".string");
-    strings.forEach((string) => {
-      string.addEventListener("mousemove", handleMouseMove);
-      string.addEventListener("mouseleave", handleMouseLeave);
-    });
-
-    return () => {
-      strings.forEach((string) => {
-        string.removeEventListener("mousemove", handleMouseMove);
-        string.removeEventListener("mouseleave", handleMouseLeave);
-      });
-    };
-  }, []);
 
   useGSAP(() => {
     gsap.from(".hero1 h1", {
@@ -292,21 +189,7 @@ const Home = () => {
             color={"#D8FF07"}
           />
 
-          <div className="string md:w-[80%] h-[15vh] md:h-[27vh] flex items-center justify-start">
-            <svg
-              className="w-full h-full"
-              viewBox="0 0 1000 160"
-              preserveAspectRatio="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M 0 80 Q 500 80 1000 80"
-                stroke="white"
-                fill="transparent"
-                strokeWidth="2"
-              />
-            </svg>
-          </div>
+          <String />
         </div>
 
         <section className="sec3 bg-black text-white   w-full">
@@ -409,21 +292,7 @@ const Home = () => {
 
                 <Button title={"View more products"} color={"#D8FF07"} />
               </div>
-              <div className="string md:w-[100%] h-[15vh] md:h-[27vh] flex items-center justify-start">
-                <svg
-                  className="w-full h-full"
-                  viewBox="0 0 1000 160"
-                  preserveAspectRatio="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M 0 80 Q 500 80 1000 80"
-                    stroke="white"
-                    fill="transparent"
-                    strokeWidth="2"
-                  />
-                </svg>
-              </div>
+              <String />
             </div>
           </div>
 
@@ -618,41 +487,6 @@ const Home = () => {
                   </p>
                 </div>
               </div>
-            </div>
-          </section>
-
-          <section className="txt h-[20vh] md:h-[25vh] bg-[#D8FF07] flex overflow-hidden">
-            <div className="marquee shrink-0 -translate-x-full pl-8 text-black flex items-center gap-7">
-              <h1 className="text-5xl md:text-7xl ">Crafting Better Fits</h1>
-              <img
-                className="h-[50px] md:h-[100px]"
-                src="/images/arrow-br.svg"
-                alt=""
-              />
-            </div>
-            <div className="marquee shrink-0 -translate-x-full pl-8 text-black flex items-center gap-7">
-              <h1 className="text-5xl md:text-7xl ">Crafting Better Fits</h1>
-              <img
-                className="h-[50px] md:h-[100px]"
-                src="/images/arrow-br.svg"
-                alt=""
-              />
-            </div>
-            <div className="marquee shrink-0 -translate-x-full pl-8 text-black flex items-center gap-7">
-              <h1 className="text-5xl md:text-7xl ">Crafting Better Fits</h1>
-              <img
-                className="h-[50px] md:h-[100px]"
-                src="/images/arrow-br.svg"
-                alt=""
-              />
-            </div>
-            <div className="marquee shrink-0 -translate-x-full pl-8 text-black flex items-center gap-7">
-              <h1 className="text-5xl md:text-7xl ">Crafting Better Fits</h1>
-              <img
-                className="h-[50px] md:h-[100px]"
-                src="/images/arrow-br.svg"
-                alt=""
-              />
             </div>
           </section>
         </section>
