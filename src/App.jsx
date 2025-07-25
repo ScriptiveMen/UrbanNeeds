@@ -28,11 +28,11 @@ const App = () => {
       <SideEmail />
       <ScrollingText />
       <Footer />
-      {/* {showloader && (
+      {showloader && (
         <div className="fixed inset-0 z-[9999]">
           <Loader setShowLoader={setShowLoader} />
         </div>
-      )} */}
+      )}
     </div>
   );
 };
