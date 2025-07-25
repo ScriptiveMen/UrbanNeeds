@@ -1,7 +1,7 @@
 import gsap from "gsap";
 import React from "react";
 
-const Card = () => {
+const Card = ({ imgSrc, title, price }) => {
   const zoomImage = (e) => {
     const img = e.currentTarget;
     gsap.to(img, {
@@ -27,15 +27,13 @@ const Card = () => {
           onMouseEnter={zoomImage}
           onMouseLeave={removeZoomImage}
           className="h-full w-full object-cover"
-          src="/images/card1.webp"
+          src={imgSrc}
           alt=""
         />
       </div>
       <div className=" py-2 font-machina text-black flex flex-col gap-2">
-        <h3 className="md:text-3xl text-xl font-semibold">
-          Oversized Tee - Jungle Green
-        </h3>
-        <p className="md:text-xl text-sm text-gray-600">Rs.899</p>
+        <h3 className="md:text-3xl text-xl font-semibold">{title}</h3>
+        <p className="md:text-xl text-sm text-gray-600">{price}</p>
       </div>
     </div>
   );

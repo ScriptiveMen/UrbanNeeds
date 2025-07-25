@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-// import { nanoid } from "nanoid";
-// import { useDispatch } from "react-redux";
-// import { asyncRegisterUser } from "../store/actions/UsersAction";
-// import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { asyncRegisterUser } from "../store/actions/UsersAction";
+import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const {
@@ -11,14 +11,12 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const RegisterHandler = (user) => {
     user.id = nanoid();
-    user.isAdmin = false;
     user.cart = [];
-    user.wishlist = [];
     dispatch(asyncRegisterUser(user));
     toast.success("Login Now!");
     navigate("/login");

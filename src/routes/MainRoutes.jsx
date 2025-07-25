@@ -1,15 +1,17 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
-import About from "../pages/About";
-import Products from "../pages/Products";
-import ProductDetail from "../pages/ProductDetail";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Cart from "../pages/Cart";
-import Contact from "../pages/Contact";
-import Policy from "../pages/Policy";
-import PageNotFound from "../pages/PageNotFound";
+
+const About = lazy(() => import("../pages/About"));
+const Products = lazy(() => import("../pages/Products"));
+const ProductDetail = lazy(() => import("../pages/ProductDetail"));
+const Login = lazy(() => import("../pages/Login"));
+const Register = lazy(() => import("../pages/Register"));
+const Cart = lazy(() => import("../pages/Cart"));
+const Contact = lazy(() => import("../pages/Contact"));
+const Policy = lazy(() => import("../pages/Policy"));
+const PageNotFound = lazy(() => import("../pages/PageNotFound"));
+const Profile = lazy(() => import("../pages/Profile"));
 
 const MainRoutes = () => {
   return (
@@ -23,6 +25,7 @@ const MainRoutes = () => {
       <Route path="/login" element={<Login />}></Route>
       <Route path="/register" element={<Register />}></Route>
       <Route path="/cart" element={<Cart />}></Route>
+      <Route path="/profile" element={<Profile />}></Route>
       <Route path="*" element={<PageNotFound />}></Route>
     </Routes>
   );

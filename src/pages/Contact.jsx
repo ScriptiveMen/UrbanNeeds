@@ -35,7 +35,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-white pt-20 md:pt-30">
+    <div className="min-h-screen w-full bg-white pt-20 md:pt-30 overflow-hidden">
       <div className="flex flex-col md:flex-row items-start justify-center gap-10 pb-7">
         <div className="left md:w-[50%] w-full relative px-5 md:px-15  flex flex-col items-start gap-4">
           <p className="text-gray-500 font-thin text-sm md:text-xl">

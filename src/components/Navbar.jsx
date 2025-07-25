@@ -1,6 +1,8 @@
 import gsap from "gsap";
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { asyncLogoutUser } from "../store/actions/UsersAction";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,8 +11,20 @@ const Navbar = () => {
   const isAnimating = useRef(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // GSAP timeline
+  const user = useSelector((state) => state.userReducer.users);
+
+  const linkClasses =
+    "text-xl font-thin tracking-tight relative group overflow-hidden";
+  const spanClasses =
+    "inline-block px-1 text-left group-hover:scale-105 group-hover:-translate-y-1 transition-transform duration-300 ease-out";
+  const underlineClasses =
+    "absolute left-1 bottom-0 w-0 h-[1px] bg-white group-hover:w-full transition-all duration-300 ease-in-out";
+  const loginButtonClasses =
+    "bg-white text-black w-full text-center py-2 rounded-full hover:scale-95 mix-blend-normal";
+
+  // Init Timeline
   useEffect(() => {
     tl.current = gsap.timeline({ paused: true });
     tl.current
@@ -20,7 +34,7 @@ const Navbar = () => {
         ease: "power3.out",
       })
       .from(
-        hammenu.current.querySelectorAll(".links div"),
+        hammenu.current.querySelectorAll(".links a"),
         {
           x: 50,
           opacity: 0,
@@ -31,7 +45,7 @@ const Navbar = () => {
       );
   }, []);
 
-  // Animate open/close
+  // Trigger open/close animations
   useEffect(() => {
     if (!tl.current) return;
 
@@ -48,19 +62,35 @@ const Navbar = () => {
     }
   }, [isOpen]);
 
-  // Auto-close on route change
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
 
-  // Handle link navigation with animation delay
   const handleNavigation = (path) => {
     if (isAnimating.current) return;
-
     setIsOpen(false);
     setTimeout(() => {
       navigate(path);
-    }, 500); // match timeline duration
+    }, 500); // Wait for reverse animation
+  };
+
+  const handleLogout = async () => {
+    if (isAnimating.current) return;
+    setIsOpen(false);
+    setTimeout(async () => {
+      await dispatch(asyncLogoutUser());
+      navigate("/");
+    }, 500);
+  };
+
+  const handleToggleMenu = () => {
+    if (isAnimating.current) return;
+    setIsOpen(true);
+  };
+
+  const handleCloseMenu = () => {
+    if (isAnimating.current) return;
+    setIsOpen(false);
   };
 
   return (
@@ -73,23 +103,22 @@ const Navbar = () => {
             alt="Urban Needs Logo"
           />
         </div>
-
         <div
-          onClick={() => setIsOpen(true)}
+          onClick={handleToggleMenu}
           className="hamburger w-7 h-7 rounded-full bg-black flex items-center justify-center md:hidden text-white"
         >
           <i className="ri-menu-5-line"></i>
         </div>
       </div>
 
-      {/* Fullscreen Menu */}
+      {/* Side Menu */}
       <div
         ref={hammenu}
         className="fixed md:hidden top-0 right-[-100%] w-full h-screen bg-[#16171A] text-white z-[998] p-5"
       >
         <div className="w-full flex items-center justify-end">
           <div
-            onClick={() => setIsOpen(false)}
+            onClick={handleCloseMenu}
             className="hamburger w-7 h-7 rounded-full bg-black flex items-center justify-center text-white"
           >
             <i className="ri-close-fill"></i>
@@ -100,23 +129,75 @@ const Navbar = () => {
           <p className="py-3">Menu</p>
 
           <div className="links flex flex-col gap-5 py-9 border-b-[0.5px] border-t-[0.5px] border-gray-500">
-            {[
-              { name: "Home", path: "/" },
-              { name: "Products", path: "/products" },
-              { name: "Cart", path: "/cart" },
-              { name: "About Us", path: "/about" },
-              { name: "Our Policies", path: "/policy" },
-              { name: "Contact", path: "/contact" },
-              { name: "Login", path: "/login" },
-            ].map((link, i) => (
-              <div
-                key={i}
-                onClick={() => handleNavigation(link.path)}
-                className="text-2xl font-thin cursor-pointer"
+            <NavLink
+              onClick={() => handleNavigation("/")}
+              className={linkClasses}
+            >
+              <span className={spanClasses}>Home</span>
+              <span className={underlineClasses}></span>
+            </NavLink>
+
+            <NavLink
+              onClick={() => handleNavigation("/cart")}
+              className={linkClasses}
+            >
+              <span className={spanClasses}>Cart</span>
+              <span className={underlineClasses}></span>
+            </NavLink>
+
+            <NavLink
+              onClick={() => handleNavigation("/products")}
+              className={linkClasses}
+            >
+              <span className={spanClasses}>Products</span>
+              <span className={underlineClasses}></span>
+            </NavLink>
+
+            {/* Profile Always Mounted but Conditionally Visible */}
+            <NavLink
+              onClick={() => handleNavigation("/profile")}
+              className={`${linkClasses} ${user ? "block" : "hidden"}`}
+            >
+              <span className={spanClasses}>Profile</span>
+              <span className={underlineClasses}></span>
+            </NavLink>
+
+            <NavLink
+              onClick={() => handleNavigation("/about")}
+              className={linkClasses}
+            >
+              <span className={spanClasses}>About Us</span>
+              <span className={underlineClasses}></span>
+            </NavLink>
+
+            <NavLink
+              onClick={() => handleNavigation("/policy")}
+              className={linkClasses}
+            >
+              <span className={spanClasses}>Our Policies</span>
+              <span className={underlineClasses}></span>
+            </NavLink>
+
+            <NavLink
+              onClick={() => handleNavigation("/contact")}
+              className={linkClasses}
+            >
+              <span className={spanClasses}>Contact</span>
+              <span className={underlineClasses}></span>
+            </NavLink>
+
+            {user ? (
+              <NavLink onClick={handleLogout} className={loginButtonClasses}>
+                Logout
+              </NavLink>
+            ) : (
+              <NavLink
+                onClick={() => handleNavigation("/login")}
+                className={loginButtonClasses}
               >
-                {link.name}
-              </div>
-            ))}
+                Login
+              </NavLink>
+            )}
           </div>
 
           <div className="w-full py-10 flex items-center justify-between">

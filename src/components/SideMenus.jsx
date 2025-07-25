@@ -1,7 +1,12 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { asyncLogoutUser } from "../store/actions/UsersAction";
 
 const SideMenus = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const linkClasses =
     "text-xl font-thin tracking-tight relative group overflow-hidden";
 
@@ -14,6 +19,12 @@ const SideMenus = () => {
   const loginButtonClasses =
     "bg-white text-black w-full text-center py-2 rounded-full hover:scale-95 mix-blend-normal";
 
+  const user = useSelector((state) => state.userReducer.users);
+  const logoutHandler = async () => {
+    await dispatch(asyncLogoutUser());
+    navigate("/");
+  };
+
   return (
     <div>
       <div className="links hidden fixed z-[99] md:flex flex-col gap-2 items-start top-10 mix-blend-difference text-white right-6">
@@ -22,15 +33,22 @@ const SideMenus = () => {
           <span className={underlineClasses}></span>
         </NavLink>
 
+        <NavLink className={linkClasses} to={"/cart"}>
+          <span className={spanClasses}>Cart</span>
+          <span className={underlineClasses}></span>
+        </NavLink>
+
         <NavLink className={linkClasses} to={"/products"}>
           <span className={spanClasses}>Products</span>
           <span className={underlineClasses}></span>
         </NavLink>
 
-        <NavLink className={linkClasses} to={"/cart"}>
-          <span className={spanClasses}>Cart</span>
-          <span className={underlineClasses}></span>
-        </NavLink>
+        {user && (
+          <NavLink className={linkClasses} to={"/profile"}>
+            <span className={spanClasses}>Profile</span>
+            <span className={underlineClasses}></span>
+          </NavLink>
+        )}
 
         <NavLink className={linkClasses} to={"/about"}>
           <span className={spanClasses}>About Us</span>
@@ -46,9 +64,19 @@ const SideMenus = () => {
           <span className={underlineClasses}></span>
         </NavLink>
 
-        <NavLink to={"/login"} className={loginButtonClasses}>
-          Login
-        </NavLink>
+        {user ? (
+          <>
+            <NavLink onClick={logoutHandler} className={loginButtonClasses}>
+              Logout
+            </NavLink>
+          </>
+        ) : (
+          <>
+            <NavLink to={"/login"} className={loginButtonClasses}>
+              Login
+            </NavLink>
+          </>
+        )}
       </div>
     </div>
   );

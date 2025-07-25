@@ -3,7 +3,7 @@ import String from "../components/String";
 
 const Policy = () => {
   return (
-    <div className="min-h-screen w-full bg-black  pt-20 md:pt-30">
+    <div className="min-h-screen w-full bg-black  pt-20 md:pt-30 overflow-hidden">
       <div className="flex flex-col items-start justify-center gap-5 pb-20 md:pb-30">
         <div className="left relative  w-full px-5 md:px-15  flex flex-col items-start gap-4">
           <p className="text-white font-thin text-sm md:text-xl">
