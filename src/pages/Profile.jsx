@@ -44,7 +44,7 @@ const Profile = () => {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen w-full bg-white   pt-20 md:pt-30">
+    <div className="min-h-screen w-full bg-white overflow-hidden  pt-20 md:pt-30">
       <div className="flex flex-col items-start justify-center  pb-20 md:pb-30">
         <div className="left relative  w-full px-5 md:px-15  flex flex-col items-start gap-4">
           <p className="text-black font-thin text-sm md:text-xl">
@@ -183,9 +183,9 @@ const Profile = () => {
                 )}
               </div>
 
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-5">
                 <button
-                  className="button hover:scale-95 cursor-pointer transition-all duration-100 px-5 py-3 my-8 md:my-10 bg-[#D8FF07] w-max text-black rounded-full flex items-center justify-center gap-3 md:text-lg border-2 border-black origin-center"
+                  className="button hover:scale-95 cursor-pointer transition-all duration-100 px-5 py-3 md:my-10 bg-[#D8FF07] w-max text-black rounded-full flex items-center justify-center gap-3 md:text-lg border-2 border-black origin-center"
                   type="submit"
                 >
                   Update Account
@@ -194,7 +194,7 @@ const Profile = () => {
 
                 <div
                   onClick={DeleteUserHandler}
-                  className="button hover:scale-95 cursor-pointer transition-all duration-100 px-5 py-3 my-8 md:my-10 bg-white w-max text-black rounded-full flex items-center justify-center gap-3 md:text-lg border-2 border-black origin-center"
+                  className="button hover:scale-95 cursor-pointer transition-all duration-100 px-5 py-3 md:my-10 bg-white w-max text-black rounded-full flex items-center justify-center gap-3 md:text-lg border-2 border-black origin-center"
                 >
                   Delete Profile
                   <div className="circle bg-[#D8FF07] h-4 w-4 rounded-full"></div>
