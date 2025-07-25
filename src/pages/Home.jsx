@@ -155,7 +155,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen  w-screen realative">
+    <div className="min-h-screen  w-screen realative overflow-hidden">
       <section className=" h-full w-full">
         <img
           className="h-full w-full object-cover"
