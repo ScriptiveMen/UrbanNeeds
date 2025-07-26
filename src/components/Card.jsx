@@ -31,9 +31,17 @@ const Card = ({ imgSrc, title, price }) => {
           alt=""
         />
       </div>
-      <div className=" py-2 font-machina text-black flex flex-col gap-2">
-        <h3 className="md:text-3xl text-xl font-semibold">{title}</h3>
-        <p className="md:text-xl text-sm text-gray-600">{price}</p>
+
+      <div className="flex flex-col justify-between">
+        <div className=" py-2 font-machina text-black flex flex-col gap-2">
+          <h3 className="md:text-3xl text-xl font-semibold">{title}</h3>
+          <p className="md:text-xl text-sm text-gray-600">{price}</p>
+        </div>
+        <div className="flex items-center md:justify-end justify-center">
+          <div className="bg-black cursor-pointer  text-white w-max md:px-7 px-5  text-center py-2 rounded-full hover:scale-95 mix-blend-normal">
+            View More
+          </div>
+        </div>
       </div>
     </div>
   );
