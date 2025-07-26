@@ -66,7 +66,15 @@ const ScrollingText = () => {
   };
   useScrollAnimation();
   return (
-    <section className="txt h-[20vh] md:h-[25vh] bg-[#D8FF07] flex overflow-hidden">
+    <section className="txt h-[20vh] w-full md:h-[25vh] bg-[#D8FF07] flex overflow-hidden">
+      <div className="marquee shrink-0 -translate-x-full pl-8 text-black flex items-center gap-7">
+        <h1 className="text-5xl md:text-7xl ">Crafting Better Fits</h1>
+        <img
+          className="h-[50px] md:h-[100px]"
+          src="/images/arrow-br.svg"
+          alt=""
+        />
+      </div>
       <div className="marquee shrink-0 -translate-x-full pl-8 text-black flex items-center gap-7">
         <h1 className="text-5xl md:text-7xl ">Crafting Better Fits</h1>
         <img

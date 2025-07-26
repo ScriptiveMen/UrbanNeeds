@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { data } from "react-router-dom";
 
 const initialState = {
   users: null,

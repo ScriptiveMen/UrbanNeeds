@@ -4,7 +4,6 @@ import Home from "../pages/Home";
 
 const About = lazy(() => import("../pages/About"));
 const Products = lazy(() => import("../pages/Products"));
-const ProductDetail = lazy(() => import("../pages/ProductDetail"));
 const Login = lazy(() => import("../pages/Login"));
 const Register = lazy(() => import("../pages/Register"));
 const Cart = lazy(() => import("../pages/Cart"));
@@ -21,7 +20,6 @@ const MainRoutes = () => {
       <Route path="/contact" element={<Contact />}></Route>
       <Route path="/policy" element={<Policy />}></Route>
       <Route path="/products" element={<Products />}></Route>
-      <Route path="/product/:id" element={<ProductDetail />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/register" element={<Register />}></Route>
       <Route path="/cart" element={<Cart />}></Route>

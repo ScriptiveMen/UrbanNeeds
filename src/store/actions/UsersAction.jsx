@@ -53,17 +53,14 @@ export const asyncUpdateUser = (id, user) => async (dispatch, getState) => {
   try {
     localStorage.setItem("user", JSON.stringify(user));
 
-    // 2. Update the user in "userdb"
     let userDB = JSON.parse(localStorage.getItem("userdb"));
 
-    // Find index of user to update
     const userIndex = userDB.findIndex((u) => u.id == id);
 
     if (userIndex !== -1) {
       userDB[userIndex] = { ...userDB[userIndex], ...user };
       localStorage.setItem("userdb", JSON.stringify(userDB));
     }
-    // dispatch(loaduser(user));
     dispatch(asyncCurrentUser());
   } catch (error) {
     toast.error("Something went wrong!");

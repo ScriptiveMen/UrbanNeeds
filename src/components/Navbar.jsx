@@ -71,7 +71,7 @@ const Navbar = () => {
     setIsOpen(false);
     setTimeout(() => {
       navigate(path);
-    }, 500); // Wait for reverse animation
+    }, 500);
   };
 
   const handleLogout = async () => {
@@ -111,7 +111,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Side Menu */}
       <div
         ref={hammenu}
         className="fixed md:hidden top-0 right-[-100%] w-full h-screen bg-[#16171A] text-white z-[998] p-5"

@@ -6,7 +6,7 @@ const Button = ({ title, color }) => {
 
   const addAnimation = () => {
     gsap.to(buttonRef.current, {
-      scaleX: 1.05, // slightly increase width
+      scaleX: 1.05,
       backgroundColor: color,
       boxShadow: `0 4px 20px rgba(0, 0, 0, 0.2)`,
       color: "#111",

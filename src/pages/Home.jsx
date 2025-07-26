@@ -1,8 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Button from "../components/Button";
-import ScrollingText from "../components/ScrollingText";
 import String from "../components/String";
 
 const Home = () => {
@@ -90,7 +89,7 @@ const Home = () => {
     const img = container.querySelector("img");
 
     img.style.display = "block";
-    img.style.pointerEvents = "none"; // so it doesn’t block mouse events
+    img.style.pointerEvents = "none";
 
     gsap.fromTo(
       img,
@@ -110,7 +109,6 @@ const Home = () => {
     let x = e.clientX - rect.left - imgWidth / 2;
     let y = e.clientY - rect.top - imgHeight / 2;
 
-    // Clamp to container bounds
     x = Math.max(0, Math.min(x, rect.width - imgWidth));
     y = Math.max(0, Math.min(y, rect.height - imgHeight));
 

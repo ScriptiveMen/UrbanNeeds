@@ -15,14 +15,13 @@ const Loader = ({ setShowLoader }) => {
       delay: 0.5,
     });
 
-    // loader upar bhejne ka animation after 3 seconds
     gsap.to(".loader-screen", {
       y: "-100%",
       backgroundColor: "black",
       duration: 1,
       ease: "power4.inOut",
       delay: 3,
-      onComplete: () => setShowLoader(false), // loader hat jayega
+      onComplete: () => setShowLoader(false),
     });
   }, []);
 

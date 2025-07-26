@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
   const animateInput = (e) => {
@@ -26,11 +26,9 @@ const Contact = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  // const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const LoginHandler = async (user) => {
-    // dispatch(asyncLoginUser(user));
     navigate("/");
   };
 
